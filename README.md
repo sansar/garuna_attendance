@@ -12,3 +12,8 @@ Switch to the repo folder
 1.php artisan migrate
 2.php artisan db:seed
 3.expose public folder on nginx or apache config
+
+# admin password
+
+username: sansar
+password: 123
