@@ -4,13 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mail\InviteMail;
 use App\Models\Attendance;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\Input;
 
 class EditController extends Controller
 {
