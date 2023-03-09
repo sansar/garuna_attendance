@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Component\Console\Input\Input;
 
 class EditController extends Controller
