@@ -48,10 +48,10 @@ REDIS_PORT=6379
 MAIL_MAILER=smtp  
 MAIL_HOST=smtp.gmail.com  
 MAIL_PORT=465  
-mail_username=garuna.publish@gmail.com  
+MAIL_USERNAME=garuna.publish@gmail.com  
 MAIL_PASSWORD="cplk fvyp dmqi cnai"  
 MAIL_ENCRYPTION=tls  
-mail_from_address=garunapublishing@gmail.com  
+MAIL_FROM_ADDRESS=garunapublishing@gmail.com  
 MAIL_FROM_NAME="${APP_NAME}"
 
 # admin password
