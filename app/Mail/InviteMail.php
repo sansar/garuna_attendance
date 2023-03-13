@@ -11,7 +11,8 @@ class InviteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $mailData;
+    public $mailData = ['title' => 'Урилга'];
+    public $user;
     public $link;
 //    public $pdf;
 
@@ -20,9 +21,9 @@ class InviteMail extends Mailable
      *
      * @return void
      */
-    public function __construct($mailData, $link)
+    public function __construct($user, $link)
     {
-        $this->mailData = $mailData;
+        $this->user = $user;
         $this->link = $link;
     }
 

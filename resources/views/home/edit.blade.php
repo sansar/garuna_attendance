@@ -189,7 +189,11 @@ $('#send').click(function () {
         dataType: "json",
         data: {
             uid: $('#uid').val(),
-            email: $('#email').val()
+            name: $('#name').val(),
+            phone: $('#phone').val(),
+            email: $('#email').val(),
+            amount: $('#amount').val(),
+            paid_date: $('#paid_date').val(),
         },
     })
         .done(function (data) {
