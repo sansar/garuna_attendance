@@ -16,7 +16,7 @@
     </style>
 </head>
 <body>
-<p style="font-weight: bold">Сайн байна уу?</p>
+<p style="font-size: 16px">Сайн байна уу?</p>
 <div>Танхимд орохдоо доорх QR кодыг уншуулж орно уу.</div>
 <img src="{{ $mailData['body']}}" width="400" height="400">
 </body>
