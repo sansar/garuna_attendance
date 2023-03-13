@@ -38,4 +38,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('/attend', [EditController::class, 'attend']);
         Route::post('/email_send', [EditController::class, 'email_send'])->name('email.send');
     });
+    Route::fallback(function () {
+        return abort(404);
+    });
 });
