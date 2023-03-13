@@ -4,7 +4,7 @@
     <title>{{ $mailData['title'] }}</title>
 </head>
 <body>
-<h1>please scan QR code this attachment</h1>
-<img src="{{ $mailData['body']}}" width="300" height="300">
+    <h1>Сайн байна уу?</h1>
+    <div>Урилгыг файлаар хавсаргаж явууллаа.</div>
 </body>
 </html>

@@ -68,68 +68,76 @@
             </form>
         </div>
     </div>
-    <script>
-        $("#paid_date").flatpickr({});
-        $("#attended").change(function () {
+<script>
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
-            let checkbox = $(this);
-            if (checkbox.is(":checked")) {
-                checkbox.val("1");
-            } else {
-                checkbox.val("0");
-            }
-        })
-        $('#delete').click(function () {
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
 
-
-            Swal.fire({
-                title: 'Устгахдаа итгэлтэй байна уу?',
-                text: "Энэ үйлдлийг буцааж болохгүй!",
-                icon: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'Үгүй',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Тиймээ, устга!',
-                cancelButtonColor: '#d33',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajaxSetup({
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                                "content"
-                            ),
-                        },
-                    });
-
-                    $.ajax({
-                        url: "/delete",
-                        type: "POST",
-                        dataType: "json",
-                        data: {
-                            uid: $('#uid').val(),
-                        },
-                    })
-                        .done(function (data) {
-                            Swal.fire(
-                                'Устгасан!',
-                                'Энэ бүртгэл устсан.',
-                                'success'
-                            ).then(function () {
-                                location.replace('/');
-                            });
-                        })
-                        .fail(function () {
-                            console.log("fail");
-                        });
-
-
-                }
-            })
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+    return false;
+};
+$(function(){
+    if (getUrlParameter('a') !== false) {
+        Swal.fire(
+            'OK дарж ирц бүртгэнэ үү!',
+            $('#name').val(),
+            'success'
+        ).then(function () {
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+            $.ajax({
+                url: "/attend",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    uid: $('#uid').val(),
+                },
+            }).done(function (data) {
+                location.replace('/');
+            }).fail(function () {
+                Swal.fire(
+                    'Ажмилтгүй боллоо!',
+                    'Дахин оролдоно уу.',
+                    'error'
+                ).then(function () {});
+            });
         });
-
-        $('#send').click(function () {
-
-
+    }
+});
+$("#paid_date").flatpickr({});
+$("#attended").change(function () {
+    let checkbox = $(this);
+    if (checkbox.is(":checked")) {
+        checkbox.val("1");
+    } else {
+        checkbox.val("0");
+    }
+})
+$('#delete').click(function () {
+    Swal.fire({
+        title: 'Устгахдаа итгэлтэй байна уу?',
+        text: "Энэ үйлдлийг буцааж болохгүй!",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Үгүй',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Тиймээ, устга!',
+        cancelButtonColor: '#d33',
+    }).then((result) => {
+        if (result.isConfirmed) {
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -139,26 +147,69 @@
             });
 
             $.ajax({
-                url: "/email_send",
+                url: "/delete",
                 type: "POST",
                 dataType: "json",
                 data: {
-                    link: location.href,
-                    email: $('#email').val(),
+                    uid: $('#uid').val(),
                 },
             })
                 .done(function (data) {
                     Swal.fire(
-                        'Имэйл илгээсэн!',
-                        'илгээсэн.',
+                        'Устгасан!',
+                        'Энэ бүртгэл устсан.',
                         'success'
                     ).then(function () {
-
+                        location.replace('/');
                     });
                 })
                 .fail(function () {
-                    console.log("fail");
+                    Swal.fire(
+                        'Ажмилтгүй боллоо!',
+                        'Дахин оролдоно уу.',
+                        'error'
+                    ).then(function () {});
                 });
+        }
+    })
+});
+
+$('#send').click(function () {
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                "content"
+            ),
+        },
+    });
+
+    $.ajax({
+        url: "/email_send",
+        type: "POST",
+        dataType: "json",
+        data: {
+            uid: $('#uid').val(),
+            email: $('#email').val()
+        },
+    })
+        .done(function (data) {
+            Swal.fire(
+                'Имэйл илгээсэн!',
+                'илгээсэн.',
+                'success'
+            ).then(function () {
+
+            });
+        })
+        .fail(function () {
+            Swal.fire(
+                'Алдаа гарлаа!',
+                'Мэйл хаягийг шалгана уу.',
+                'error'
+            ).then(function () {
+                $('#email').focus();
+            });
         });
-    </script>
+});
+</script>
 @endsection

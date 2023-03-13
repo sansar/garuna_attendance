@@ -22,6 +22,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/create', 'EditController@create')->name('home.create');
     Route::post('/create', [EditController::class, 'create_attendance'])->name('create.post');
     Route::post('/delete', [EditController::class, 'delete'])->name('delete.post');
+    Route::post('/attend', [EditController::class, 'attend']);
     Route::post('/email_send', [EditController::class, 'email_send'])->name('email.send');
     Route::group(['middleware' => ['guest']], function () {
         /**

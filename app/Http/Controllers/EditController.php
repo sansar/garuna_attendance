@@ -78,18 +78,38 @@ class EditController extends Controller
 
     public function email_send(Request $request)
     {
+        $request->validate([
+            'email' => 'email:required,email'
+        ]);
+        $uid = $request->get('uid');
         $link = $request->get('link');
         $email = $request->get('email');
         $mailData = [
-            'title' => 'Invitation from ' . env('MAIL_USERNAME'),
-            'body' => 'Сайн байна уу',
-            'subject' => 'Урилга'
+            'title' => 'Урилга',
         ];
-        Mail::to($email)->send(new InviteMail($mailData, $link));
+        $mailer = new InviteMail($mailData, $link . '?a=true');
+        Mail::to($email)->send($mailer);
+        $user = Attendance::where('uid', $uid)->first();
+        if ($user != null) {
+            $user->mail_sent = 1;
+            $user->email = $email;
+            $user->save();
+        }
         return response()->json([
             "status" => 1,
             "link" => $link,
-            "email" => $email
+            "image_src" => $mailer->mailData['image_src'],
+            "image_url" => $mailer->mailData['image_url']
         ]);
+    }
+
+    public function attend(Request $request) {
+        $uid = $request->get('uid');
+        $user = Attendance::where('uid', $uid)->first();
+        if ($user != null) {
+            $user->attended = 1;
+            $user->save();
+        }
+        return response()->json(['status' => 1]);
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app-master')
 
 @section('content')
-    <div class="bg-light p-5 rounded">
+    <div class="bg-light rounded">
         <div class="float-end mb-2">
             <a href="/create" class="btn btn-success">Хүн нэмэх</a>
         </div>
@@ -23,7 +23,7 @@
                         <th scope="row">{{$key+1}}</th>
                         <td>{{$list_user->name}}</td>
                         <td>@money($list_user->amount)</td>
-                        <td>{{$list_user->attended? 'Ирсэн': 'Ирээгүй'}}</td>
+                        <td>{{$list_user->attended? 'Ирсэн': '-'}}</td>
                         <td>
                             <a href="/edit/{{$list_user->uid}}">
                                 <i class="bi bi-pencil-square "></i></a>
