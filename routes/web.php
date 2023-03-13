@@ -18,12 +18,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
      * Home Routes
      */
     Route::get('/', 'HomeController@index')->name('home.index');
-    Route::get('/edit/{uid}', 'EditController@index')->name('home.edit');
-    Route::get('/create', 'EditController@create')->name('home.create');
-    Route::post('/create', [EditController::class, 'create_attendance'])->name('create.post');
-    Route::post('/delete', [EditController::class, 'delete'])->name('delete.post');
-    Route::post('/attend', [EditController::class, 'attend']);
-    Route::post('/email_send', [EditController::class, 'email_send'])->name('email.send');
     Route::group(['middleware' => ['guest']], function () {
         /**
          * Login Routes
@@ -34,8 +28,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     });
     Route::group(['middleware' => ['auth']], function () {
         /**
-         * Logout Routes
+         * Authorized Routes
          */
         Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+        Route::get('/edit/{uid}', 'EditController@index')->name('home.edit');
+        Route::get('/create', 'EditController@create')->name('home.create');
+        Route::post('/create', [EditController::class, 'create_attendance'])->name('create.post');
+        Route::post('/delete', [EditController::class, 'delete'])->name('delete.post');
+        Route::post('/attend', [EditController::class, 'attend']);
+        Route::post('/email_send', [EditController::class, 'email_send'])->name('email.send');
     });
 });

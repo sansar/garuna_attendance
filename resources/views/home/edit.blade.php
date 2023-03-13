@@ -1,7 +1,9 @@
 @extends('layouts.app-master')
 @section('content')
     @if(Request::segment(1)=='edit')
-        <h2>засах</h2>
+        <h2>Засах</h2>
+    @else
+        <h2>Шинэ хүн үүсгэх</h2>
     @endif
     <div class="row">
         <div class="col-8">
@@ -45,6 +47,9 @@
                     <input type="hidden" name="uid" id="uid" value="{{$edit['uid']}}">
                     <div class="col-sm-10">
                         <button type="button" id="send" class="btn btn-success">Илгээх</button>
+                        <div class="d-inline-block m-lg-2 @if($edit['mail_sent']==0) hidden @endif" id="is_sent">
+                            Илгээсэн
+                        </div>
                     </div>
                 </div>
                 <fieldset class="row mb-3">
@@ -68,76 +73,120 @@
             </form>
         </div>
     </div>
-<script>
-function getUrlParameter(sParam) {
-    var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
+    <script>
+        function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
 
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
 
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-        }
-    }
-    return false;
-};
-$(function(){
-    if (getUrlParameter('a') !== false) {
-        Swal.fire(
-            'OK дарж ирц бүртгэнэ үү!',
-            $('#name').val(),
-            'success'
-        ).then(function () {
-            $.ajaxSetup({
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-            });
-            $.ajax({
-                url: "/attend",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    uid: $('#uid').val(),
-                },
-            }).done(function (data) {
-                location.replace('/');
-            }).fail(function () {
-                Swal.fire(
-                    'Ажмилтгүй боллоо!',
-                    'Дахин оролдоно уу.',
-                    'error'
-                ).then(function () {});
-            });
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+            return false;
+        };
+
+        $(document).ajaxSend(function () {
+            $("#overlay").fadeIn(300);
         });
-    }
-});
-$("#paid_date").flatpickr({});
-$("#attended").change(function () {
-    let checkbox = $(this);
-    if (checkbox.is(":checked")) {
-        checkbox.val("1");
-    } else {
-        checkbox.val("0");
-    }
-})
-$('#delete').click(function () {
-    Swal.fire({
-        title: 'Устгахдаа итгэлтэй байна уу?',
-        text: "Энэ үйлдлийг буцааж болохгүй!",
-        icon: 'warning',
-        showCancelButton: true,
-        cancelButtonText: 'Үгүй',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Тиймээ, устга!',
-        cancelButtonColor: '#d33',
-    }).then((result) => {
-        if (result.isConfirmed) {
+        $(function () {
+            if (getUrlParameter('a') !== false) {
+                Swal.fire(
+                    'OK дарж ирц бүртгэнэ үү!',
+                    $('#name').val(),
+                    'success'
+                ).then(function () {
+                    $.ajaxSetup({
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                    });
+                    $.ajax({
+                        url: "/attend",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            uid: $('#uid').val(),
+                        },
+                    }).done(function (data) {
+                        location.replace('/');
+                    }).fail(function () {
+                        Swal.fire(
+                            'Ажмилтгүй боллоо!',
+                            'Дахин оролдоно уу.',
+                            'error'
+                        ).then(function () {
+                        });
+                    });
+                });
+            }
+        });
+        $("#paid_date").flatpickr({});
+        $("#attended").change(function () {
+            let checkbox = $(this);
+            if (checkbox.is(":checked")) {
+                checkbox.val("1");
+            } else {
+                checkbox.val("0");
+            }
+        })
+        $('#delete').click(function () {
+            Swal.fire({
+                title: 'Устгахдаа итгэлтэй байна уу?',
+                text: "Энэ үйлдлийг буцааж болохгүй!",
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Үгүй',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Тиймээ, устга!',
+                cancelButtonColor: '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajaxSetup({
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                    });
+
+                    $.ajax({
+                        url: "/delete",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            uid: $('#uid').val(),
+                        },
+                    })
+                        .done(function (data) {
+                            Swal.fire(
+                                'Устгасан!',
+                                'Энэ бүртгэл устсан.',
+                                'success'
+                            ).then(function () {
+                                location.replace('/');
+                            });
+                        })
+                        .fail(function () {
+                            Swal.fire(
+                                'Ажмилтгүй боллоо!',
+                                'Дахин оролдоно уу.',
+                                'error'
+                            ).then(function () {
+                            });
+                        });
+                }
+            })
+        });
+
+        $('#send').click(function () {
+
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -147,74 +196,41 @@ $('#delete').click(function () {
             });
 
             $.ajax({
-                url: "/delete",
+                url: "/email_send",
                 type: "POST",
                 dataType: "json",
                 data: {
                     uid: $('#uid').val(),
+                    name: $('#name').val(),
+                    phone: $('#phone').val(),
+                    email: $('#email').val(),
+                    amount: $('#amount').val(),
+                    paid_date: $('#paid_date').val(),
+                    link: location.href,
                 },
             })
                 .done(function (data) {
+                    setTimeout(function () {
+                        $("#overlay").fadeOut(300);
+                    }, 500);
+
                     Swal.fire(
-                        'Устгасан!',
-                        'Энэ бүртгэл устсан.',
+                        'Имэйл илгээсэн!',
+                        'илгээсэн.',
                         'success'
                     ).then(function () {
-                        location.replace('/');
+                        $("#is_sent").removeClass('hidden');
                     });
                 })
                 .fail(function () {
                     Swal.fire(
-                        'Ажмилтгүй боллоо!',
-                        'Дахин оролдоно уу.',
+                        'Алдаа гарлаа!',
+                        'Мэйл хаягийг шалгана уу.',
                         'error'
-                    ).then(function () {});
+                    ).then(function () {
+                        $('#email').focus();
+                    });
                 });
-        }
-    })
-});
-
-$('#send').click(function () {
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                "content"
-            ),
-        },
-    });
-
-    $.ajax({
-        url: "/email_send",
-        type: "POST",
-        dataType: "json",
-        data: {
-            uid: $('#uid').val(),
-            name: $('#name').val(),
-            phone: $('#phone').val(),
-            email: $('#email').val(),
-            amount: $('#amount').val(),
-            paid_date: $('#paid_date').val(),
-            link: location.href,
-        },
-    })
-        .done(function (data) {
-            Swal.fire(
-                'Имэйл илгээсэн!',
-                'илгээсэн.',
-                'success'
-            ).then(function () {
-
-            });
-        })
-        .fail(function () {
-            Swal.fire(
-                'Алдаа гарлаа!',
-                'Мэйл хаягийг шалгана уу.',
-                'error'
-            ).then(function () {
-                $('#email').focus();
-            });
         });
-});
-</script>
+    </script>
 @endsection
