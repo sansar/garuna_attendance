@@ -6,7 +6,7 @@
         <h2>Шинэ хүн үүсгэх</h2>
     @endif
     <div class="row">
-        <div class="col-8">
+        <div class="">
             <form method="post" action="{{ route('create.post') }}">
                 @csrf
                 <div class="row mb-3">
@@ -29,25 +29,12 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Төлбөр:</label>
-                    <div class="col-sm-10">
-                        <input type="number" name="amount" value="{{$edit['amount']}}" class="form-control" id="amount">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Төлсөн огноо:</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="paid_date" value="{{$edit['paid_date']}}" class="form-control"
-                               id="paid_date">
-                    </div>
-                </div>
-                <div class="row mb-3">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Урилга:</label>
                     <input type="hidden" name="mail_sent" value="{{$edit['mail_sent']}}">
                     <input type="hidden" name="uid" id="uid" value="{{$edit['uid']}}">
                     <div class="col-sm-10">
-                        <button type="button" id="send" class="btn btn-success">Илгээх</button>
-                        <div class="d-inline-block m-lg-2 @if($edit['mail_sent']==0) hidden @endif" id="is_sent">
+                        <button type="button" id="send" class="btn btn-success">{{ $edit['mail_sent'] == 0 ? 'Илгээх' : 'Дахин илгээх'}}</button>
+                        <div class="d-inline-block m-lg-2" style="visibility: {{$edit['mail_sent']==0 ? 'hidden' : ''}}" id="is_sent">
                             Илгээсэн
                         </div>
                     </div>
@@ -204,8 +191,6 @@
                     name: $('#name').val(),
                     phone: $('#phone').val(),
                     email: $('#email').val(),
-                    amount: $('#amount').val(),
-                    paid_date: $('#paid_date').val(),
                     link: location.href,
                 },
             })
@@ -219,7 +204,7 @@
                         'илгээсэн.',
                         'success'
                     ).then(function () {
-                        $("#is_sent").removeClass('hidden');
+                        $('#is_sent').css('visibility', '');
                     });
                 })
                 .fail(function () {

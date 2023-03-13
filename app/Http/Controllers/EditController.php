@@ -19,8 +19,6 @@ class EditController extends Controller
                 'name' => '',
                 'phone' => '',
                 'email' => '',
-                'amount' => '',
-                'paid_date' => '',
                 'mail_sent' => 0,
                 'attended' => 0
             ];
@@ -39,8 +37,6 @@ class EditController extends Controller
             'name' => '',
             'phone' => '',
             'email' => '',
-            'amount' => '',
-            'paid_date' => '',
             'uid' => '',
             'mail_sent' => 0,
             'attended' => 0
@@ -56,8 +52,6 @@ class EditController extends Controller
         $data = ['name' => $request->get('name'),
             'phone' => $request->get('phone'),
             'email' => $request->get('email'),
-            'amount' => $request->get('amount'),
-            'paid_date' => $request->get('paid_date'),
             'uid' => is_null($uid) ? Str::uuid() : $uid,
             'mail_sent' => is_null($request->get('mail_sent')) ? 0 : $request->get('mail_sent'),
             'attended' => is_null($request->get('attended')) ? 0 : $request->get('attended')

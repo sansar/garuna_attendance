@@ -12,18 +12,18 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Нэр</th>
-                    <th scope="col">Төлбөр</th>
-                    <th scope="col">Ирц</th>
+                    <th scope="col">Утас</th>
+                    <th scope="col">Төлөв</th>
                     <th scope="col">-</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($lists as $key=>$list_user)
-                    <tr>
+                    <tr style="background-color: {{ $list_user->attended ? 'aquamarine' : ($list_user->mail_sent ? 'lightcyan' : 'white') }}">
                         <th scope="row">{{$key+1}}</th>
                         <td>{{$list_user->name}}</td>
-                        <td>@money($list_user->amount)</td>
-                        <td>{{$list_user->attended? 'Ирсэн': '-'}}</td>
+                        <td>{{$list_user->phone}}</td>
+                        <td>{{$list_user->attended ? 'Ирсэн' : ($list_user->mail_sent ? 'Урилга илгээсэн' : '-')}}</td>
                         <td>
                             <a href="/edit/{{$list_user->uid}}">
                                 <i class="bi bi-pencil-square "></i></a>

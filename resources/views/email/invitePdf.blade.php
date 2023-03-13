@@ -5,13 +5,13 @@
     <title>{{ $mailData['title'] }}</title>
     <style>
         @font-face {
-            font-family: ipag;
+            font-family: arialmon;
             font-style: normal;
             font-weight: normal;
             src: url('{{ storage_path("fonts/ArialMon.ttf")}}');
         }
         body, body > h1 {
-            font-family: ipag;
+            font-family: arialmon;
         }
     </style>
 </head>
