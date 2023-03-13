@@ -194,6 +194,7 @@ $('#send').click(function () {
             email: $('#email').val(),
             amount: $('#amount').val(),
             paid_date: $('#paid_date').val(),
+            link: location.href,
         },
     })
         .done(function (data) {
