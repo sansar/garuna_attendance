@@ -109,6 +109,7 @@
                             'Дахин оролдоно уу.',
                             'error'
                         ).then(function () {
+                            $("#overlay").fadeOut(300);
                         });
                     });
                 });
@@ -166,6 +167,7 @@
                                 'Дахин оролдоно уу.',
                                 'error'
                             ).then(function () {
+                                $("#overlay").fadeOut(300);
                             });
                         });
                 }
@@ -213,6 +215,7 @@
                         'Мэйл хаягийг шалгана уу.',
                         'error'
                     ).then(function () {
+                        $("#overlay").fadeOut(300);
                         $('#email').focus();
                     });
                 });
