@@ -7,7 +7,7 @@
     <meta name="author" content="Aagii">
     <meta name="generator" content="Hugo 0.87.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Fixed top navbar example · Bootstrap v5.1</title>
+    <title>Гаруна ирц бүртгэл</title>
     <!-- Bootstrap core CSS -->
     <link href="{!! url('assets/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
