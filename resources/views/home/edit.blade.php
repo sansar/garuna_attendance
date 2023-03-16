@@ -32,12 +32,14 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Урилга:</label>
                     <input type="hidden" name="mail_sent" value="{{$edit['mail_sent']}}">
                     <input type="hidden" name="uid" id="uid" value="{{$edit['uid']}}">
+                    @if(Request::segment(1)=='edit')
                     <div class="col-sm-10">
                         <button type="button" id="send" class="btn btn-success">{{ $edit['mail_sent'] == 0 ? 'Илгээх' : 'Дахин илгээх'}}</button>
                         <div class="d-inline-block m-lg-2" style="visibility: {{$edit['mail_sent']==0 ? 'hidden' : ''}}" id="is_sent">
                             Илгээсэн
                         </div>
                     </div>
+                    @endif
                 </div>
                 <fieldset class="row mb-3">
                     <legend class="col-form-label col-sm-2 pt-0">Ирц</legend>
